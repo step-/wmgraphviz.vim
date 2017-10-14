@@ -58,8 +58,14 @@ if !exists('g:WMGraphviz_viewer')
 	endif
 endif
 
+" Now using -O option, which automatically outputs to
+" filepath.input_ext[".counter"]".output_exe" and we ignore all ".counter"s.
+" They represent rendered graphs past the first one in the input file.  This
+" fixes the plugin issue that rendered graphs past the first one are output to
+" the terminal window.
+" Tested with graphviz 2.40.1 on Linux.
 if !exists('g:WMGraphviz_shelloptions')
-	let g:WMGraphviz_shelloptions = ''
+	let g:WMGraphviz_shelloptions = '-O'
 endif
 
 if !exists('g:WMGraphviz_dot2tex')
@@ -75,7 +81,7 @@ if !exists('g:WMGraphviz_tool')
 endif
 
 fu! GraphvizOutputFile(output)
-	return expand('%:p:r') . '.' . a:output
+	return expand('%:p') . '.' . a:output
 endfu
 
 fu! GraphvizLogFile()
